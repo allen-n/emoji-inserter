@@ -11,7 +11,7 @@ from random import randint
 import json
 
 from re import sub
-
+from re import match
 
 parser = argparse.ArgumentParser()
 
@@ -59,7 +59,7 @@ def getProxyIPs():
 
 
 def fetchEmojis():
-    allEmojis = {}
+    allEmojis = []
     for url in tqdm(urls):
         r = None
         if args.proxy:
@@ -79,7 +79,15 @@ def fetchEmojis():
         for row in emojiRows:
             span, name = row.findChild('a').contents
             emoji = span.contents[0]
-            allEmojis[name] = emoji
+            entry = {}
+            entry['name'] = name
+            entry['emoji'] = emoji
+            category = match(r"[^/]+(?=/$|$)", url)
+            entry['category'] = ""
+            if category:
+                entry['category'] = category.group(0)
+            allEmojis.append(entry)
+            # allEmojis[name] = emoji
 
     if args.verbose:
         print(allEmojis)
