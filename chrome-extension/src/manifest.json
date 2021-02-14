@@ -21,7 +21,7 @@
     "clipboardWrite"
   ],
   "web_accessible_resources": [
-    "AllEmojis.txt"
+    "resources/*"
   ],
   "commands": {
     "_execute_browser_action": {

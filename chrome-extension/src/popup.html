@@ -7,11 +7,16 @@
 </head>
 
 <body>
-  <h1>Hello!</h1>
-  <img src="img/icon-128.png">
+  <h1>Emoji Inserter</h1>
+  <p>Type the name of the emoji you want, navigate up and down, and hit enter. </p>
+
   <form id="search-form">
-    <input type="text" id="input-txt" autofocus="autofocus">
+    <input list="input-txt" id="input-area" autofocus="autofocus" type="text" autocomplete="off">
+    <datalist id="input-txt">
+    </datalist>
   </form>
+  <table id="found-emojis">
+  </table>
 </body>
 
 </html>
