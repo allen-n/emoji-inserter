@@ -6,17 +6,32 @@
   <title></title>
 </head>
 
-<body>
-  <h1>Emoji Inserter</h1>
-  <p>Type the name of the emoji you want, navigate up and down, and hit enter. </p>
+<body class="schoolbell-font">
+  <!-- <h1>Emoji Inserter</h1> -->
+  <!-- <p>Type the name of the emoji you want, navigate up and down, and hit enter. </p> -->
 
-  <form id="search-form">
-    <input list="input-txt" id="input-area" autofocus="autofocus" type="text" autocomplete="off">
-    <datalist id="input-txt">
-    </datalist>
-  </form>
-  <table id="found-emojis">
+
+  <div class="grid-container">
+    <div class="grid-item">
+      <form id="search-form">
+        <div class="schoolbell-font"></div>
+        <input class="schoolbell-font input-form" id="input-txt" autofocus="autofocus" type="text" autocomplete="off"
+          placeholder="Type to search emoji...">
+      </form>
+    </div>
+    <div class="grid-item">
+      <img src="img/icon-128.png" alt="emoji-insterter-icon" class="img-icon">
+    </div>
+    <!-- <div class="grid-item">
+      
+    </div> -->
+  </div>
+  <p id="hint-text"></p>
+
+
+  <table id="found-emojis" class="emoji-table">
   </table>
+  <!-- <p><em>Launch faster by <a href="chrome://extensions/shortcuts" target="_blank"> using the shortcut</a></em></p> -->
 </body>
 
 </html>

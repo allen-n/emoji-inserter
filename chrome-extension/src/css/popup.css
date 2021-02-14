@@ -1,0 +1,55 @@
+.schoolbell-font {
+    font-family: 'Schoolbell-Regular', Fallback, sans-serif;
+    font-size: medium;
+}
+
+.img-icon {
+    width: 20vw;
+    height: auto;
+}
+
+.schoolbell-font.input-form {
+    font-family: 'Schoolbell-Regular', Fallback, sans-serif;
+    font-size: medium;
+    border-radius: 2px;
+    /* border-color: aliceblue; */
+}
+
+#hint-text {
+    font-size: small;
+    color: #AEAEAE;
+    margin: 0px;
+    margin-bottom: 4px;
+}
+
+.grid-container {
+    display: grid;
+    grid-gap: 1px 5vw;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+
+.emoji-table {
+    width: 100%;
+}
+
+.emoji-row {
+    border-collapse: collapse;
+    border-style: none;
+}
+
+.emoji-text {
+    border-style: none;
+}
+
+.emoji-img {
+    align-items: center;
+    text-align: center;
+    border-radius: 20%;
+    background: rgba(196, 196, 196, 0.24);
+}
+
+/* input[type='text'] {
+    font-size: 24px;
+    font-family: monospace;
+} */
