@@ -9,6 +9,7 @@ var globals = {};
 globals.maxResultTableLength = 15;
 globals.resultTableIdx = 0;
 globals.copyStr = "";
+globals.interval = null;
 
 /**
  *  Captures the globals.copyStr from the global scope, copies it to clipboard, and then closes the window
@@ -24,7 +25,40 @@ function copyAndClosePopupHandler(event) {
  * 
  * @param {KeyboardEvent} event an incoming keyboard event that needs to be handled 
  */
-function handleKeypress(event) {
+function handleKeyDown(event) {
+    const deltaTime = 100;
+    switch (event.key) {
+        case 'ArrowUp':
+            event.preventDefault();
+            if (globals.interval == null) {
+                globals.interval = setInterval(event => {
+                    updateResultTable(globals.resultTableIdx - 1);
+                }, deltaTime)
+            }
+
+            break;
+        case 'ArrowDown':
+            event.preventDefault();
+            if (globals.interval == null) {
+                globals.interval = setInterval(event => {
+                    updateResultTable(globals.resultTableIdx + 1);
+                }, deltaTime)
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+/**
+ * 
+ * @param {KeyboardEvent} event an incoming keyboard event that needs to be handled 
+ */
+function handleKeyUp(event) {
+    if (globals.interval != null) {
+        clearInterval(globals.interval)
+        globals.interval = null;
+    }
     switch (event.key) {
         case 'ArrowUp':
             event.preventDefault();
@@ -49,17 +83,22 @@ function updateResultTable(idx) {
     let numRows = table.rows.length
     if (numRows > 0) {
         let numCols = table.rows[0].cells.length
-        idx = Math.max(Math.min(numRows, idx), 0);
+        idx = Math.max(Math.min(numRows - 1, idx), 0);
         globals.resultTableIdx = idx;
         for (var i = 0; i < numRows; ++i) {
-            // table.rows[i].style.backgroundColor = 'blue';
             table.rows[i].cells[numCols - 1].style.background = 'rgba(196, 196, 196, 0.24)';
         }
         let cell = table.rows[idx].cells[numCols - 1]
         cell.style.background = 'rgba(75, 140, 248, 0.69)';
         globals.copyStr = cell.innerText
+        if (idx == 0) {
+            updateHintText('Use up / down arrows to navigate')
+        } else {
+            updateHintText('Press enter to copy emoji!')
+        }
     } else {
         globals.copyStr = ""
+        updateHintText('')
     }
 }
 
@@ -77,7 +116,7 @@ function populateResultsTable(results) {
             const element = results[result].item;
             // console.log(`${element.name}: ${element.emoji}`)
             // let div = document.createElement('div')
-            
+
             let row = document.createElement('tr')
             row.setAttribute('class', 'emoji-row')
             let col1 = document.createElement('td');
@@ -98,6 +137,11 @@ function populateResultsTable(results) {
     updateResultTable(globals.resultTableIdx);
 }
 
+function updateHintText(text) {
+    let hint = document.getElementById('hint-text');
+    hint.innerText = text
+}
+
 // Event Listeners
 const emojiMatchPort = chrome.extension.connect({
     name: 'emojiMatchPort'
@@ -105,4 +149,5 @@ const emojiMatchPort = chrome.extension.connect({
 
 emojiMatchPort.onMessage.addListener(populateResultsTable)
 document.getElementById('search-form').addEventListener('submit', copyAndClosePopupHandler)
-document.getElementById('search-form').addEventListener('keyup', handleKeypress);
+document.getElementById('search-form').addEventListener('keyup', handleKeyUp);
+document.getElementById('search-form').addEventListener('keydown', handleKeyDown);
