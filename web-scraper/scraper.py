@@ -9,6 +9,8 @@ import datetime
 import statistics
 from random import randint
 import json
+import lxml
+import cchardet
 
 from re import sub
 from re import match
@@ -58,18 +60,63 @@ def getProxyIPs():
     return proxies
 
 
+def fetchUnicodeEmojis():
+    url = "https://unicode.org/emoji/charts/full-emoji-list.html"
+    r = None
+    allEmojis = []
+    if args.proxy:
+        proxies = getProxyIPs()
+        i = randint(0, len(proxies)-1)
+        r = requests.get(url, proxies={
+            "http": proxies[i]
+        })
+    else:
+        r = requests.get(url)
+    if r.status_code == 404:
+        print("Invalid page, ending!")
+        return
+    soup = bs(r.content, 'lxml')
+    emojiRows = soup.findAll('tr')
+    # emojiList = soup.find('ul', attrs={"class": "emoji-list"})
+    # emojiRows = emojiList.findAll('li')
+    headerTitle = ""
+    print("Found {} rows".format(len(emojiRows)))
+    for row in tqdm(emojiRows):
+        cols = row.findAll('td')
+        numCols = len(cols)
+        # print(numCols)
+        if numCols == 1:
+            headerTitle = cols[0].contents[0]
+        elif numCols > 1:
+            emoji = cols[2].contents[0]
+            name = cols[-1].contents[0]
+            tags = name.split(" ")
+            # span, name = row.findChild('a').contents
+            # emoji = span.contents[0]
+            entry = {}
+            entry['name'] = name
+            entry['emoji'] = emoji
+            entry['tags'] = tags
+            # category = match(r"[^/]+(?=/$|$)", url)
+            entry['category'] = headerTitle
+            allEmojis.append(entry)
+    with open('AllEmojis.txt', 'w+') as outfile:
+        json.dump(allEmojis, outfile)
+
+
 def fetchEmojis():
     allEmojis = []
+    requests_session = requests.Session()
     for url in tqdm(urls):
         r = None
         if args.proxy:
             proxies = getProxyIPs()
             i = randint(0, len(proxies)-1)
-            r = requests.get(url, proxies={
+            r = requests_session.get(url, proxies={
                 "http": proxies[i]
             })
         else:
-            r = requests.get(url)
+            r = requests_session.get(url)
         if r.status_code == 404:
             print("Invalid page, ending!")
             break
@@ -94,10 +141,11 @@ def fetchEmojis():
 
     with open('AllEmojis.txt', 'w+') as outfile:
         json.dump(allEmojis, outfile)
-    
+
 
 if __name__ == "__main__":
-    fetchEmojis()
+    fetchUnicodeEmojis()
+    # fetchEmojis()
     # with open('AllEmojis.txt', 'r+') as outfile:
     #     data = json.load(outfile)
     #     print(data)

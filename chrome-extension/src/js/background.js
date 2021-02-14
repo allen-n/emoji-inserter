@@ -9,12 +9,12 @@ var emojiJSON = null;
 var fuse = null;
 
 chrome.runtime.onConnect.addListener(function (port) {
-    console.log(`Connected .....`);
+    // console.log(`Connected .....`);
     // console.log(port)
 
     port.onMessage.addListener(function (msg) {
         // console.log("message recieved: ");
-        console.log(msg);
+        // console.log(msg);
         switch (msg.command) {
             case 'fetchEmoji':
                 getAllEmojis(emojiList => {
@@ -86,7 +86,8 @@ function makeSearchIndex(inIndexVar, data) {
             ignoreLocation: true,
             // ignoreFieldNorm: false,
             keys: [
-                "name"
+                "name",
+                "tags"
             ]
         };
         inIndexVar = new Fuse(data, fuseOptions)
@@ -99,12 +100,3 @@ function getSearchIndexMatches(string) {
         fuse = new Fuse()
     }
 }
-
-
-// $.getJSON('../resources/AllEmojis.txt', data => {
-//     console.log(data)
-// })
-
-// $.getJSON(chrome.runtime.getURL("./AllEmojis.txt"), data => {
-//     console.log(data)
-// })

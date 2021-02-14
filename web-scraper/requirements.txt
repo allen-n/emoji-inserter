@@ -4,4 +4,6 @@ requests>=2.25.1
 tqdm>=4.56.0
 urllib3>=1.26.2
 pandas>=1.1.5
+lxml>==4.6.2
+cchardet>==2.1.7
 
