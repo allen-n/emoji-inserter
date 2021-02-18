@@ -1,6 +1,9 @@
-.schoolbell-font {
-    font-family: 'Schoolbell-Regular', Fallback, sans-serif;
-    font-size: medium;
+:root {
+    --light-blue: rgba(75, 140, 248, 0.69);
+    --grey: rgba(196, 196, 196, 0.24);
+    --overlay-black: rgba(10, 10, 10, 0.445);
+    --light-grey: #AEAEAE;
+    --fade-time: .15s;
 }
 
 .img-icon {
@@ -17,7 +20,7 @@
 
 #hint-text {
     font-size: small;
-    color: #AEAEAE;
+    color: var(--light-grey);
     margin: 0px;
     margin-bottom: 4px;
 }
@@ -46,7 +49,59 @@
     align-items: center;
     text-align: center;
     border-radius: 20%;
-    background: rgba(196, 196, 196, 0.24);
+    background: var(--grey);
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /* position: inherit; */
+    margin: 0%;
+    border-radius: 1%;
+    background-color: var(--overlay-black);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.overlay.off {
+    display: none;
+}
+
+.overlay.on {
+    display: block;
+}
+
+.copy-notification {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0%;
+    border-radius: 10%;
+    background-color: var(--light-blue);
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    text-align: center;
+}
+
+.copy-notification.off {
+    display: none;
+}
+
+.copy-notification.on {
+    display: block;
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity var(--fade-time) ease-in-out;
+    -moz-transition: opacity var(--fade-time) ease-in-out;
+    -webkit-transition: opacity var(--fade-time) ease-in-out;
+}
+
+.fade.on {
+    opacity: 1;
 }
 
 /* input[type='text'] {

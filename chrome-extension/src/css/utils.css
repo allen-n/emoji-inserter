@@ -1,4 +1,9 @@
 @font-face {
-    font-family: 'Schoolbell-Regular';
-    src: url('../resources/Schoolbell-Regular.ttf') format('truetype');
-  }
+  font-family: 'Schoolbell-Regular';
+  src: url('../resources/Schoolbell-Regular.ttf') format('truetype');
+}
+
+.schoolbell-font {
+  font-family: 'Schoolbell-Regular', Fallback, sans-serif;
+  font-size: medium;
+}

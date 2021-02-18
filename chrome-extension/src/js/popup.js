@@ -17,8 +17,11 @@ globals.interval = null;
  */
 function copyAndClosePopupHandler(event) {
     event.preventDefault()
+    document.getElementById('overlay-id').className = "overlay on fade on";
+    document.getElementById('copy-notification-id').className = "copy-notification on fade on"
     utils.copyTextToClipboard(globals.copyStr)
-    window.close(); // close the popup, we're done
+    setTimeout(window.close, 600);
+    // window.close(); // close the popup, we're done
 }
 
 /**
@@ -26,7 +29,7 @@ function copyAndClosePopupHandler(event) {
  * @param {KeyboardEvent} event an incoming keyboard event that needs to be handled 
  */
 function handleKeyDown(event) {
-    const deltaTime = 100;
+    const deltaTime = 200;
     switch (event.key) {
         case 'ArrowUp':
             event.preventDefault();
@@ -78,6 +81,7 @@ function handleKeyUp(event) {
     }
 }
 
+
 function updateResultTable(idx) {
     let table = document.getElementById('found-emojis');
     let numRows = table.rows.length
@@ -86,10 +90,10 @@ function updateResultTable(idx) {
         idx = Math.max(Math.min(numRows - 1, idx), 0);
         globals.resultTableIdx = idx;
         for (var i = 0; i < numRows; ++i) {
-            table.rows[i].cells[numCols - 1].style.background = 'rgba(196, 196, 196, 0.24)';
+            table.rows[i].cells[numCols - 1].style.background = 'var(--grey)';
         }
         let cell = table.rows[idx].cells[numCols - 1]
-        cell.style.background = 'rgba(75, 140, 248, 0.69)';
+        cell.style.background = 'var(--light-blue)';
         globals.copyStr = cell.innerText
         if (idx == 0) {
             updateHintText('Use up / down arrows to navigate')
