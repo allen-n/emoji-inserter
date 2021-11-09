@@ -131,9 +131,17 @@ function populateResultsTable(results) {
 
             col1.setAttribute('class', 'emoji-text')
             col2.setAttribute('class', 'emoji-img')
+            row.setAttribute('data-rownumber', currentResultIdx);
 
             row.appendChild(col1)
             row.appendChild(col2)
+
+            row.addEventListener("mouseenter", function (event) {
+                let rowNumber = event.target.getAttribute('data-rownumber') - 1;
+                rowNumber = Math.max(0, rowNumber);
+                updateResultTable(rowNumber);
+            }, false);
+            row.addEventListener("click", copyAndClosePopupHandler, false);
             // div.appendChild(row)
             table.appendChild(row)
         }

@@ -18,6 +18,10 @@
     /* border-color: aliceblue; */
 }
 
+.fit-content {
+    width: fit-content;
+}
+
 #hint-text {
     font-size: small;
     color: var(--light-grey);
