@@ -1,6 +1,6 @@
 {
   "name": "Emoji Inserter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "manifest_version": 2,
   "description": "An extension that makes it easier to insert emojis on the web",
   "options_page": "options.html",
